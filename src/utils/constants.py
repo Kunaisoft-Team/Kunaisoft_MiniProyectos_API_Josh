@@ -8,6 +8,7 @@ USERS_ROUTE           = getenv("USERS_ROUTE")
 AUTH_ROUTE            = getenv("AUTH_ROUTE")
 
 MONGO_URI             = getenv("MONGO_URI")
+CLIENT_URL            = getenv("CLIENT_URL")
 
 SECRET_KEY            = getenv("SECRET_KEY")
 TOKEN_EXPIRES_MINUTES = getenv("TOKEN_EXPIRES_MINUTES")
