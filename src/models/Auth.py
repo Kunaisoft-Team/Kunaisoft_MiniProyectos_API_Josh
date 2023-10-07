@@ -1,6 +1,6 @@
 from pydantic     import BaseModel, Field
 
-from src.utils.db import connect_to_db
+from src.utils.db import db
 
 class Auth(BaseModel):
   email: str
@@ -8,7 +8,6 @@ class Auth(BaseModel):
 
   @classmethod
   async def __validate_user__(self, email):
-    db    = connect_to_db()
     user  = await db.users.find_one({"email": email})
     return user
   

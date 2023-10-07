@@ -2,7 +2,6 @@ from fastapi              import APIRouter, HTTPException, Response, status
 from passlib.context      import CryptContext
 from re                   import match
 
-
 from src.utils.constants  import USERS_ROUTE, MONGO_ID_REGEX
 from src.models.User      import User
 
