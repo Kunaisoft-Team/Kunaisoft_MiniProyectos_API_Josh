@@ -8,6 +8,7 @@ class User(BaseModel):
   name: str     
   email: str    = Field(pattern=EMAIL_REGEX)
   password: str = Field(min_length=6)
+  tasks: list   = []
 
   @classmethod
   async def get_users(self):

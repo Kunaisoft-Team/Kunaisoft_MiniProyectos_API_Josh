@@ -25,5 +25,12 @@ async def signin(user_data: Auth):
   
   token = Token.create_token(data=user, expires_in=expires_in)
 
+  return {"access_token": token}
 
-  return {"access-token": token}
+@auth_router.get(AUTH_ROUTE)
+def get_user(access_token: str):
+  current_user = Token.decode_token(access_token)
+  if not current_user:
+    raise HTTPException(status_code=401, detail={"msg": "Invalid token"})
+  
+  return current_user

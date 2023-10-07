@@ -2,10 +2,9 @@ from datetime             import timedelta
 from jose                 import JWTError, jwt
 from datetime             import datetime
 
-from src.utils.today      import get_current_date
 from src.utils.constants  import SECRET_KEY
 
-class Token():
+class Token:
   @classmethod
   def create_token(self, data: dict, expires_in: timedelta = None):
     print(expires_in)
@@ -24,6 +23,6 @@ class Token():
   def decode_token(self, token: str):
     try:
       result = jwt.decode(token, SECRET_KEY)
-      return result.get("sub")
+      return result
     except JWTError:
       return False
