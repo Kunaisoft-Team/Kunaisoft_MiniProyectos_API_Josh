@@ -13,7 +13,6 @@ class Task(BaseModel):
 
   @classmethod
   async def get_tasks(self, id: str = None):
-    
     if id:  
       cursor = db.users.aggregate(
         [
@@ -52,11 +51,21 @@ class Task(BaseModel):
   
   @classmethod
   async def get_task_by_filter(self, filter: dict):
-    if(filter.get("_id")):
+    if filter.get("_id"):
       task  = await db.tasks.find_one({"_id": ObjectId(filter.get("_id"))})
     else:
       task  = await db.tasks.find_one(filter)
     return task
+  
+  
+  @classmethod
+  async def task_exists(self, title: str, user_id):
+    tasks = await self.get_tasks(user_id)
+    
+    for task in tasks:
+      if task["title"] == title: return True
+    
+    return False 
   
   @classmethod
   async def create_task(self, data: dict):

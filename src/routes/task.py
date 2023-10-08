@@ -31,19 +31,19 @@ async def get_tasks(user_id: str = None, task_id: str = None):
 
 @task_router.post(TASKS_ROUTE)
 async def create(task: Task, id: str, res: Response):
-  found_task = await Task.get_task_by_filter({"title": task.title})
+  found_task = await Task.task_exists(task.title, id)
 
   if found_task:
     raise HTTPException(status_code=409, detail={"msg": "The task already exists"})
 
-  created_task        = await Task.create_task(data=dict(task))
+  created_task = await Task.create_task(data=dict(task))
   
   if not created_task:
     raise HTTPException(status_code=400, detail={"msg": "Error trying to create the task"})
   
   created_task["_id"] = str(created_task["_id"])
   
-  user_found          =  await User.update_user({"new_task": created_task["_id"]}, id)
+  user_found =  await User.update_user({"new_task": created_task["_id"]}, id)
   
   if not user_found:
     raise HTTPException(status_code=400, detail={"msg": "Error trying to create the task"})
