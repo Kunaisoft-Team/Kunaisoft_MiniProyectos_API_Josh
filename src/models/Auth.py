@@ -9,6 +9,9 @@ class Auth(BaseModel):
   @classmethod
   async def __validate_user__(self, email):    
     user = await db.users.find_one({"email": email})
+    for index, task_id in enumerate(user["tasks"]):
+      user["tasks"][index] = str(task_id)
+    
     return user
   
   @classmethod
