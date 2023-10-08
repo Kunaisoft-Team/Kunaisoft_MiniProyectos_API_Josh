@@ -5,5 +5,4 @@ try:
   client  = AsyncIOMotorClient(MONGO_URI)
   db      = client.tasks_app_db
 except Exception as err:
-  print("ERROR TRYING TO CONNECT")
   print(err)

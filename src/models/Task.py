@@ -12,9 +12,42 @@ class Task(BaseModel):
   updated_at: str = get_current_date()
 
   @classmethod
-  async def get_tasks(self):
-    cursor  = db.tasks.find()
-    tasks   = [document async for document in cursor]
+  async def get_tasks(self, id: str = None):
+    
+    if id:  
+      cursor = db.users.aggregate(
+        [
+          {
+            "$lookup": {
+              "from": "tasks",
+              "let": { "task_id": "$tasks" },
+              "pipeline": [
+                {
+                  "$match": {
+                    "$expr": { "$in": ["$_id", "$$task_id"] }
+                  }
+                }
+              ],
+              "as": "tasks_user"
+            }
+          },
+          {
+            "$match": {
+              "_id": ObjectId(id)
+            }
+          }
+        ]
+      )
+      
+      users = [ document async for document in cursor ]
+      tasks = users[0]["tasks_user"]
+      
+      return tasks
+    
+    cursor = db.tasks.find()
+    
+    tasks = [document async for document in cursor]\
+      
     return tasks
   
   @classmethod

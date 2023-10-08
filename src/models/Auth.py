@@ -7,8 +7,8 @@ class Auth(BaseModel):
   password: str = Field(min_length=6)
 
   @classmethod
-  async def __validate_user__(self, email):
-    user  = await db.users.find_one({"email": email})
+  async def __validate_user__(self, email):    
+    user = await db.users.find_one({"email": email})
     return user
   
   @classmethod
