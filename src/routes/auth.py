@@ -21,9 +21,15 @@ async def signin(user_data: Auth):
   if not user:
     raise HTTPException(status_code=status, detail={"msg": error}, headers={"WWW-Authenticate": "Bearer"})
 
+  token_data = {
+    "id": user["_id"],
+    "name": user["name"],
+    "email": user["email"],
+  }
+  
   expires_in = timedelta(minutes=int(TOKEN_EXPIRES_MINUTES))
   
-  token = Token.create_token(data=user, expires_in=expires_in)
+  token = Token.create_token(data=token_data, expires_in=expires_in)
 
   return {"access_token": token}
 
