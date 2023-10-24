@@ -49,4 +49,10 @@ async def get_users(id: str = None):
 
   for user in users:
     user["_id"] = str(user["_id"])
+    new_tasks = [] 
+    for task in user["tasks"]: new_tasks.append(str(task))
+
+    user["tasks"].clear()
+    user["tasks"] = new_tasks
+  
   return {"users": users}
